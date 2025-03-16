@@ -6,11 +6,46 @@
     <title>如鸢·全卡池活动排期表</title>
     <style>
         :root {
+    /* 新增双主题色系 */
+    --card-pool-color: #FFD700;  /* 卡池主题色-金黄 */
+    --activity-color: #4A90E2;   /* 活动主题色-蔚蓝 */
+    --bg-color: #f8f9fa;
+}
+
+/* 标签页颜色区分 */
+.tab[data-tab="card-pool"].active {
+    background: var(--card-pool-color);
+    border-color: var(--card-pool-color);
+}
+
+.tab[data-tab="activity"].active {
+    background: var(--activity-color);
+    border-color: var(--activity-color);
+}
+
+/* 卡池表格专属样式 */
+.card-pool th {
+    background: var(--card-pool-color);
+}
+
+.card-pool tr:hover {
+    background-color: #fff9e6;  /* 浅黄色悬停背景 */
+}
+
+/* 活动表格专属样式 */
+.activity th {
+    background: var(--activity-color);
+}
+
+.activity tr:hover {
+    background-color: #e6f0ff;  /* 浅蓝色悬停背景 */
+}
+      
+  :root {
             --primary-color: #4a90e2;
             --secondary-color: #f5a623;
             --bg-color: #f8f9fa;
         }
-
         * {
             box-sizing: border-box;
             font-family: "Microsoft YaHei", sans-serif;
@@ -111,6 +146,7 @@
             flex-wrap: wrap;
         }
     </style>
+
 </head>
 <body>
     <div class="container">
@@ -119,11 +155,11 @@
         <!-- 搜索框 -->
         <input type="text" class="search-box" placeholder="搜索卡池/活动/角色..." id="searchInput">
 
-        <!-- 标签页 -->
-        <div class="tab-container">
-            <div class="tab active" onclick="showTable(0)">卡池排期</div>
-            <div class="tab" onclick="showTable(1)">活动排期</div>
-        </div>
+<!-- 修改标签页结构 -->
+<div class="tab-container">
+    <div class="tab active" data-tab="card-pool" onclick="showTable(0)">卡池排期</div>
+    <div class="tab" data-tab="activity" onclick="showTable(1)">活动排期</div>
+</div>
 
         <!-- 卡池表格 -->
         <div class="table-container" id="cardPoolTable">
@@ -170,7 +206,7 @@
                         </td>
                         <td>42天</td>
                         <td>周瑜、干吉</td>
-                        <td>三千宇宙活动伴生</td>
+                        <td>左慈活动伴生</td>
                     </tr>
                     <tr>
                         <td>长生之术</td>
@@ -181,7 +217,7 @@
                         </td>
                         <td>28天</td>
                         <td>葛洪、令狐茂</td>
-                        <td>仙陨活动伴生</td>
+                        <td>左慈活动伴生</td>
                     </tr>
                     <tr>
                         <td>弹香展骥</td>
@@ -191,8 +227,74 @@
                             <span>2025-01-01</span>
                         </td>
                         <td>42天</td>
-                        <td>周瑜、干吉</td>
-                        <td>sanqianyuz活动伴生</td>
+                        <td>荀彧、庞统</td>
+                        <td>左慈地宫伴生</td>
+                    </tr>
+                    <tr>
+                        <td>弹剑酿花</td>
+                        <td class="date-range">
+                            <span>2024-12-12</span>
+                            <span>→</span>
+                            <span>2025-01-15</span>
+                        </td>
+                        <td>35天</td>
+                        <td>徐庶、蔡琰、王异</td>
+                        <td>傅融活动伴生</td>
+                    </tr>
+			<tr>
+                        <td>奇士异才</td>
+                        <td class="date-range">
+                            <span>2025-01-09</span>
+                            <span>→</span>
+                            <span>2025-02-05</span>
+                        </td>
+                        <td>27天</td>
+                        <td>王粲、郭嘉</td>
+                        <td>复刻</td>
+                    </tr>
+			<tr>
+                        <td>天道不逾</td>
+                        <td class="date-range">
+                            <span>2025-01-21</span>
+                            <span>→</span>
+                            <span>2025-02-26</span>
+                        </td>
+                        <td>42天</td>
+                        <td>张角、张仲景、陆绩</td>
+                        <td>袁基地宫伴生</td>
+                    </tr>
+			<tr>
+                        <td>形气复生</td>
+                        <td class="date-range">
+                            <span>2025-01-23</span>
+                            <span>→</span>
+                            <span>2025-02-19</span>
+                        </td>
+                        <td>28天</td>
+                        <td>张修、张鲁</td>
+                        <td>刘辩活动伴生</td>
+                    </tr>
+			<tr>
+                        <td>绮花隐豹</td>
+                        <td class="date-range">
+                            <span>2025-02-20</span>
+                            <span>→</span>
+                            <span>2025-03-19</span>
+                        </td>
+                        <td>28天</td>
+                        <td>张郃、刘豹</td>
+                        <td>刘辩活动伴生</td>
+                    </tr>
+			<tr>
+                        <td>织囊画诗</td>
+                        <td class="date-range">
+                            <span>2025-03-13</span>
+                            <span>→</span>
+                            <span>2025-04-23</span>
+                        </td>
+                        <td>42天</td>
+                        <td>张飞、张闿</td>
+                        <td>傅融地宫伴生</td>
                     </tr>
                     <!-- 其他卡池数据... -->
                 </tbody>
@@ -259,6 +361,26 @@
                         </td>
                         <td>鸢记</td>
                         <td>无</td>
+                    </tr>
+			<tr>
+                        <td>三千宇宙</td>
+                        <td class="date-range">
+                            <span>2024-10-24</span>
+                            <span>→</span>
+                            <span>2024-11-07</span>
+                        </td>
+                        <td>男主战斗</td>
+                        <td>九门磔攘</td>
+                    </tr>
+			<tr>
+                        <td>仙陨</td>
+                        <td class="date-range">
+                            <span>2023-11-07</span>
+                            <span>→</span>
+                            <span>2023-11-21</span>
+                        </td>
+                        <td>男主战斗</td>
+                        <td>长生之术</td>
                     </tr>
 
                     <!-- 其他活动数据... -->
