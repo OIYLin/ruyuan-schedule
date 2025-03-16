@@ -2,78 +2,294 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>如鸢卡池与活动排期</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>如鸢·全卡池活动排期表</title>
     <style>
-        /* 基础样式 */
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f5a623;
+            --bg-color: #f8f9fa;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
         h1 {
-            color: #2c3e50;
             text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
         }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            margin: 20px 0;
+            border: 2px solid var(--primary-color);
+            border-radius: 25px;
+            font-size: 16px;
+        }
+
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px 8px 0 0;
+            margin-right: 5px;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-width: 800px;
         }
+
         th, td {
-            padding: 12px;
+            padding: 14px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #eee;
         }
+
         th {
-            background-color: #4CAF50;
+            background: var(--primary-color);
             color: white;
+            position: sticky;
+            top: 0;
         }
+
         tr:hover {
-            background-color: #f5f5f5;
+            background-color: #f8f9fa;
         }
-        /* 移动端适配 */
-        @media (max-width: 600px) {
-            table {
+
+        @media (max-width: 768px) {
+            th, td {
+                padding: 10px;
                 font-size: 14px;
             }
-            th, td {
-                padding: 8px;
+            
+            .tab {
+                padding: 8px 16px;
+                font-size: 14px;
             }
+        }
+
+        .date-range {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
         }
     </style>
 </head>
 <body>
-    <h1>如鸢卡池与活动排期表</h1>
-    <table>
-        <tr>
-            <th>卡池名称</th>
-            <th>开始时间</th>
-            <th>结束时间</th>
-            <th>UP角色</th>
-            <th>天数</th>
-            <th>备注</th>
-        </tr>
-        <!-- 示例数据：复制你的Excel行到这里 -->
-        <tr>
-            <td>弓箭江东</td>
-            <td>2023-10-01</td>
-            <td>2023-11-18</td>
-            <td>孙尚香、孙权</td>
-            <td>49</td>
-            <td>孙策地宫伴生</td>
-        </tr>
-        <tr>
-            <td>动如雷霆</td>
-            <td>2023-10-03</td>
-            <td>2023-10-23</td>
-            <td>张辽、马超</td>
-            <td>21</td>
-            <td>燃灯活动伴生</td>
-        </tr>
-        <!-- 继续添加其他行 -->
-    </table>
+    <div class="container">
+        <h1>如鸢·全卡池活动排期表</h1>
+        
+        <!-- 搜索框 -->
+        <input type="text" class="search-box" placeholder="搜索卡池/活动/角色..." id="searchInput">
+
+        <!-- 标签页 -->
+        <div class="tab-container">
+            <div class="tab active" onclick="showTable(0)">卡池排期</div>
+            <div class="tab" onclick="showTable(1)">活动排期</div>
+        </div>
+
+        <!-- 卡池表格 -->
+        <div class="table-container" id="cardPoolTable">
+            <table class="card-pool">
+                <thead>
+                    <tr>
+                        <th>卡池名称</th>
+                        <th>时间范围</th>
+                        <th>天数</th>
+                        <th>UP角色</th>
+                        <th>卡池性质</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 卡池数据 -->
+                    <tr>
+                        <td>弓箭江东</td>
+                        <td class="date-range">
+                            <span>2024-10-01</span>
+                            <span>→</span>
+                            <span>2024-11-18</span>
+                        </td>
+                        <td>49天</td>
+                        <td>孙尚香、孙权</td>
+                        <td>孙策地宫伴生</td>
+                    </tr>
+                    <tr>
+                        <td>动如雷霆</td>
+                        <td class="date-range">
+                            <span>2024-10-03</span>
+                            <span>→</span>
+                            <span>2024-10-23</span>
+                        </td>
+                        <td>21天</td>
+                        <td>张辽、马超</td>
+                        <td>燃灯活动伴生</td>
+                    </tr>
+                    <tr>
+                        <td>九门磔攘</td>
+                        <td class="date-range">
+                            <span>2024-10-24</span>
+                            <span>→</span>
+                            <span>2024-12-04</span>
+                        </td>
+                        <td>42天</td>
+                        <td>周瑜、干吉</td>
+                        <td>三千宇宙活动伴生</td>
+                    </tr>
+                    <tr>
+                        <td>长生之术</td>
+                        <td class="date-range">
+                            <span>2024-11-07</span>
+                            <span>→</span>
+                            <span>2024-12-04</span>
+                        </td>
+                        <td>28天</td>
+                        <td>葛洪、令狐茂</td>
+                        <td>仙陨活动伴生</td>
+                    </tr>
+                    <tr>
+                        <td>弹香展骥</td>
+                        <td class="date-range">
+                            <span>2024-11-21</span>
+                            <span>→</span>
+                            <span>2025-01-01</span>
+                        </td>
+                        <td>42天</td>
+                        <td>周瑜、干吉</td>
+                        <td>sanqianyuz活动伴生</td>
+                    </tr>
+                    <!-- 其他卡池数据... -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 活动表格 -->
+        <div class="table-container" id="activityTable" style="display: none;">
+            <table class="activity">
+                <thead>
+                    <tr>
+                        <th>活动名称</th>
+                        <th>时间范围</th>
+                        <th>类型</th>
+                        <th>伴生卡池</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 活动数据 -->
+                    <tr>
+                        <td>金窗绣户</td>
+                        <td class="date-range">
+                            <span>2023-10-01</span>
+                            <span>→</span>
+                            <span>2023-11-16</span>
+                        </td>
+                        <td>地宫</td>
+                        <td>弓剑江东</td>
+                    </tr>
+                    <tr>
+                        <td>燃犀照夜</td>
+                        <td class="date-range">
+                            <span>2023-10-03</span>
+                            <span>→</span>
+                            <span>2023-10-19</span>
+                        </td>
+                        <td>全男主战斗</td>
+                        <td>动如雷霆</td>
+                    </tr>
+                    <td>第六章</td>
+                        <td class="date-range">
+                            <span>2023-10-24</span>
+                            <span>→</span>
+                            <span>永久</span>
+                        </td>
+                        <td>主线</td>
+                        <td>无</td>
+                    <tr>
+                        <td>第七章</td>
+                        <td class="date-range">
+                            <span>2023-10-24</span>
+                            <span>→</span>
+                            <span>永久</span>
+                        </td>
+                        <td>主线</td>
+                        <td>无</td>
+                    </tr>
+                    <tr>
+                        <td>山可崩</td>
+                        <td class="date-range">
+                            <span>2023-10-17</span>
+                            <span>→</span>
+                            <span>2023-10-23</span>
+                        </td>
+                        <td>鸢记</td>
+                        <td>无</td>
+                    </tr>
+
+                    <!-- 其他活动数据... -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // 表格切换功能
+        function showTable(index) {
+            const tabs = document.querySelectorAll('.tab');
+            const tables = document.querySelectorAll('.table-container');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            tables.forEach(table => table.style.display = 'none');
+            
+            tabs[index].classList.add('active');
+            tables[index].style.display = 'block';
+        }
+
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const keyword = e.target.value.toLowerCase();
+            const activeTable = document.querySelector('.table-container[style*="block"] table');
+            
+            activeTable.querySelectorAll('tbody tr').forEach(tr => {
+                const text = tr.textContent.toLowerCase();
+                tr.style.display = text.includes(keyword) ? '' : 'none';
+            });
+        });
+    </script>
 </body>
 </html>
-
